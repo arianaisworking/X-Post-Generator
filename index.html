@@ -1,1 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>X Post Generator</title>
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="style.css">
+
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- ========================================= -->
+    <!-- LEFT PANEL                               -->
+    <!-- ========================================= -->
+
+    <aside class="sidebar">
+
+        <h1>X Post Generator</h1>
+
+        <p>Create beautiful fake X posts.</p>
+
+        <label>
+
+            Profile Photo
+
+            <input
+                type="file"
+                id="avatarInput"
+                accept="image/*">
+
+        </label>
+
+        <label>
+
+            Name
+
+            <input
+                id="nameInput"
+                type="text"
+                value="Ariana Hernandez">
+
+        </label>
+
+        <label>
+
+            Username
+
+            <input
+                id="usernameInput"
+                type="text"
+                value="@ArianaHernandez">
+
+        </label>
+
+        <label>
+
+            Post
+
+            <textarea
+                id="postInput">
+
+Most businesses don't lose customers because they're expensive.
+
+They lose customers because they're inconsistent.
+
+Consistency is a competitive advantage.
+
+            </textarea>
+
+        </label>
+
+        <button id="downloadBtn">
+
+            Download PNG
+
+        </button>
+
+    </aside>
+
+
+
+    <!-- ========================================= -->
+    <!-- PREVIEW                                  -->
+    <!-- ========================================= -->
+
+    <main class="preview">
+
+        <div id="tweetCard">
+
+            <div class="tweetHeader">
+
+                <img
+                    id="avatarPreview"
+                    src="assets/default-avatar.png">
+
+                <div>
+
+                    <div
+                        id="namePreview">
+
+                        Ariana Hernandez
+
+                    </div>
+
+                    <div
+                        id="usernamePreview">
+
+                        @ArianaHernandez
+
+                    </div>
+
+                </div>
+
+                <img
+                    class="xLogo"
+                    src="assets/x-logo.svg">
+
+            </div>
+
+            <div
+                id="tweetText">
+
+                Most businesses don't lose customers because they're expensive.
+
+                They lose customers because they're inconsistent.
+
+                Consistency is a competitive advantage.
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script src="libs/html2canvas.min.js"></script>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
