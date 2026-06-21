@@ -1,98 +1,216 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>X Post Generator</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>Ariana's X Post Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <div class="app">
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="panel">
 
-        <div class="panel">
+      <div class="brand">
+        <span class="brand-dot"></span>
+        <span class="brand-name">Post Studio</span>
+      </div>
 
-            <h1>X Post Generator</h1>
-            <p>Generate clean X-style posts for LinkedIn</p>
+      <!-- MODE TABS -->
+      <div class="toggle">
+        <button class="tab active" data-mode="single">Single</button>
+        <button class="tab" data-mode="bulk">Bulk</button>
+      </div>
 
-            <div class="toggle">
-                <button class="tab active" data-mode="single">Single</button>
-                <button class="tab" data-mode="bulk">Bulk</button>
-            </div>
+      <!-- SINGLE MODE -->
+      <div id="singleMode">
 
-            <!-- SINGLE MODE -->
-            <div id="singleMode">
+        <div class="field-label">Profile</div>
+        <div class="avatar-row">
+          <label class="avatar-upload" id="avatarLabel">
+            <img id="avatarPreviewThumb" src="assets/default-avatar.png" alt="avatar">
+            <span class="avatar-hint">Change</span>
+            <input type="file" id="avatarInput" accept="image/*">
+          </label>
+          <div class="profile-fields">
+            <input id="nameInput" placeholder="Display Name" value="Ariana Hernandez">
+            <input id="usernameInput" placeholder="@username" value="@ArianaHernandez">
+          </div>
+        </div>
 
-                <input type="file" id="avatarInput">
+        <div class="field-label">Generate from topic</div>
+        <div class="ai-row">
+          <input id="topicInput" placeholder="e.g. why consistency beats talent in business">
+          <button id="generateBtn" class="btn-ai">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            Generate
+          </button>
+        </div>
 
-                <input id="nameInput" placeholder="Name" value="Ariana Hernandez">
-
-                <input id="usernameInput" placeholder="Username" value="@ArianaHernandez">
-
-                <textarea id="postInput">Most businesses don't lose customers because they're expensive.
+        <div class="field-label">Post content</div>
+        <textarea id="postInput" placeholder="Write your post or generate above...">Most businesses don't lose customers because they're expensive.
 
 They lose customers because they're inconsistent.
 
 Consistency is a competitive advantage.</textarea>
 
-                <button id="downloadBtn">Download PNG</button>
-
-            </div>
-
-            <!-- BULK MODE -->
-            <div id="bulkMode" class="hidden">
-
-                <textarea id="bulkInput" placeholder="Paste posts separated by ---"></textarea>
-
-                <button id="bulkGenerateBtn">Generate All</button>
-
-            </div>
-
+        <div class="field-label">Engagement (display only)</div>
+        <div class="stats-row">
+          <label class="stats-toggle">
+            <input type="checkbox" id="showStats">
+            <span class="toggle-track"></span>
+            Show stats on card
+          </label>
+          <div id="statFields" class="stat-fields hidden">
+            <input type="number" id="statLikes" placeholder="Likes" value="2847" min="0">
+            <input type="number" id="statReposts" placeholder="Reposts" value="412" min="0">
+            <input type="number" id="statViews" placeholder="Views" value="84200" min="0">
+          </div>
         </div>
 
-    </aside>
+        <button id="downloadBtn" class="btn-download">Download PNG</button>
 
-    <!-- PREVIEW -->
-    <main class="preview">
+      </div>
 
-        <div id="card">
+      <!-- BULK MODE -->
+      <div id="bulkMode" class="hidden">
 
-            <div class="header">
-
-                <img id="avatarPreview" src="assets/default-avatar.png">
-
-                <div class="user">
-
-                    <div class="nameRow">
-                        <span id="namePreview">Ariana Hernandez</span>
-                        <img class="verified" src="assets/verified.svg">
-                    </div>
-
-                    <div id="usernamePreview">@ArianaHernandez</div>
-
-                </div>
-
-                <img class="xLogo" src="assets/x-logo.svg">
-
-            </div>
-
-            <div id="postPreview"></div>
-
+        <div class="field-label">Bulk generate from topics</div>
+        <div class="ai-row">
+          <input id="bulkTopicInput" placeholder="e.g. ops mindset, client trust, scaling">
+          <button id="bulkAiBtn" class="btn-ai">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            Generate Posts
+          </button>
         </div>
 
-    </main>
+        <div class="field-label">Or paste posts manually</div>
+        <textarea id="bulkInput" placeholder="Paste posts separated by ---
 
+Post one here
+
+---
+
+Post two here
+
+---
+
+Post three here"></textarea>
+
+        <div id="bulkStatus" class="bulk-status hidden"></div>
+
+        <div class="bulk-actions">
+          <button id="bulkPreviewBtn" class="btn-secondary">Preview All</button>
+          <button id="bulkDownloadBtn" class="btn-download">Download All PNGs</button>
+        </div>
+
+      </div>
+
+    </div>
+  </aside>
+
+  <!-- PREVIEW AREA -->
+  <main class="preview-area">
+
+    <!-- SINGLE CARD PREVIEW -->
+    <div id="singlePreview">
+
+      <div id="card">
+        <div class="card-header">
+          <img id="avatarCard" src="assets/default-avatar.png" alt="avatar">
+          <div class="card-user">
+            <div class="card-name-row">
+              <span id="nameCard">Ariana Hernandez</span>
+              <svg class="verified-badge" viewBox="0 0 24 24" fill="#1D9BF0"><path d="M22.25 12c0-1.43-.88-2.67-2.19-3.34.46-1.39.2-2.9-.81-3.91s-2.52-1.27-3.91-.81c-.66-1.31-1.9-2.19-3.34-2.19s-2.67.88-3.33 2.19c-1.4-.46-2.91-.2-3.92.81s-1.26 2.52-.8 3.91C1.88 9.33 1 10.57 1 12s.88 2.67 2.19 3.34c-.46 1.39-.2 2.9.81 3.91s2.52 1.26 3.91.8c.67 1.31 1.9 2.19 3.34 2.19s2.67-.88 3.33-2.19c1.4.46 2.91.2 3.92-.81s1.26-2.52.8-3.91C21.37 14.67 22.25 13.43 22.25 12zm-13.47 4.14l-3.47-3.47 1.41-1.41 2.06 2.06 5.28-5.28 1.41 1.41-6.69 6.69z"/></svg>
+            </div>
+            <div id="usernameCard" class="card-username">@ArianaHernandez</div>
+          </div>
+          <svg class="x-logo" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.733-8.835L1.254 2.25H8.08l4.259 5.63 5.905-5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </div>
+
+        <div id="postCard" class="card-post"></div>
+
+        <div id="statsCard" class="card-stats hidden">
+          <div class="stat-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            <span id="likesDisplay">2,847</span>
+          </div>
+          <div class="stat-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+            <span id="repostsDisplay">412</span>
+          </div>
+          <div class="stat-item stat-views">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <span id="viewsDisplay">84.2K views</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- STYLE PICKER -->
+      <div class="style-bar">
+        <div class="style-label">Card style</div>
+        <div class="style-swatches">
+          <button class="swatch active" data-style="dark" title="X Dark">
+            <span class="swatch-preview swatch-dark"></span>
+            <span>X Dark</span>
+          </button>
+          <button class="swatch" data-style="light" title="X Light">
+            <span class="swatch-preview swatch-light"></span>
+            <span>Light</span>
+          </button>
+          <button class="swatch" data-style="purple" title="Purple Gradient">
+            <span class="swatch-preview swatch-purple"></span>
+            <span>Purple</span>
+          </button>
+          <button class="swatch" data-style="warm" title="Warm Gradient">
+            <span class="swatch-preview swatch-warm"></span>
+            <span>Warm</span>
+          </button>
+          <button class="swatch" data-style="ocean" title="Ocean">
+            <span class="swatch-preview swatch-ocean"></span>
+            <span>Ocean</span>
+          </button>
+          <button class="swatch" data-style="midnight" title="Midnight Gold">
+            <span class="swatch-preview swatch-midnight"></span>
+            <span>Midnight</span>
+          </button>
+          <label class="swatch swatch-custom" title="Custom color">
+            <span class="swatch-preview">
+              <input type="color" id="customColor" value="#1a1a2e">
+            </span>
+            <span>Custom</span>
+          </label>
+        </div>
+
+        <div class="font-row">
+          <span class="style-label">Font size</span>
+          <input type="range" id="fontSizeSlider" min="16" max="36" value="26" class="slider">
+          <span id="fontSizeDisplay">26px</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- BULK PREVIEW GRID -->
+    <div id="bulkPreviewGrid" class="bulk-grid hidden"></div>
+
+  </main>
+
+</div>
+
+<!-- AI LOADING OVERLAY -->
+<div id="aiOverlay" class="ai-overlay hidden">
+  <div class="ai-spinner">
+    <div class="spinner-ring"></div>
+    <div class="ai-overlay-text">Generating your post...</div>
+  </div>
 </div>
 
 <script src="libs/html2canvas.min.js"></script>
 <script src="script.js"></script>
-
 </body>
 </html>
