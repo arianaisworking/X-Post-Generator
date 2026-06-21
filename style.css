@@ -9,13 +9,14 @@ body{
 font-family:'Inter',sans-serif;
 
 background:
-radial-gradient(circle at 50% 20%,
-rgba(29,155,240,.15) 0%,
-rgba(29,155,240,.05) 25%,
-#0b1220 60%,
-#080d15 100%);
+radial-gradient(
+circle at center,
+#1b2942 0%,
+#101827 40%,
+#080d15 100%
+);
 
-min-height:100vh;
+height:100vh;
 
 overflow:hidden;
 
@@ -34,15 +35,18 @@ align-items:center;
 
 gap:48px;
 
-padding:40px;
+padding:32px;
 
 }
 
-/* SIDEBAR */
+/* =========================
+SIDEBAR
+========================= */
 
 .sidebar{
 
-width:380px;
+width:360px;
+
 flex-shrink:0;
 
 }
@@ -50,38 +54,44 @@ flex-shrink:0;
 .sidebar-card{
 
 background:
-rgba(16,22,35,.85);
+rgba(18,24,37,.88);
 
 backdrop-filter:blur(18px);
 
-border:1px solid rgba(255,255,255,.06);
-
-border-radius:30px;
+border-radius:28px;
 
 padding:28px;
 
+border:1px solid rgba(255,255,255,.06);
+
 box-shadow:
-0 0 0 1px rgba(255,255,255,.03),
-0 30px 80px rgba(0,0,0,.45),
-0 0 120px rgba(29,155,240,.08);
+0 30px 80px rgba(0,0,0,.45);
 
 }
 
 .sidebar h1{
 
-font-size:34px;
+font-size:28px;
 
-margin-bottom:8px;
+font-weight:700;
+
+margin-bottom:6px;
 
 }
 
 .sidebar p{
 
-color:#8c98ad;
+font-size:14px;
 
-margin-bottom:24px;
+color:#8d99ae;
+
+margin-bottom:22px;
 
 }
+
+/* =========================
+MODE TOGGLE
+========================= */
 
 .mode-toggle{
 
@@ -89,7 +99,7 @@ display:flex;
 
 gap:10px;
 
-margin-bottom:24px;
+margin-bottom:22px;
 
 }
 
@@ -107,6 +117,10 @@ background:#111827;
 
 color:white;
 
+font-size:14px;
+
+font-weight:600;
+
 cursor:pointer;
 
 transition:.2s;
@@ -119,15 +133,19 @@ background:#1d9bf0;
 
 }
 
+/* =========================
+FORMS
+========================= */
+
 label{
 
 display:block;
 
-font-size:14px;
+font-size:13px;
 
 margin-bottom:16px;
 
-color:#c5d0e3;
+color:#c6d0e1;
 
 }
 
@@ -140,23 +158,23 @@ margin-top:8px;
 
 padding:14px;
 
-border-radius:14px;
-
 background:#111827;
 
 border:1px solid rgba(255,255,255,.08);
 
+border-radius:14px;
+
 color:white;
 
-font-size:15px;
-
 font-family:inherit;
+
+font-size:15px;
 
 }
 
 textarea{
 
-height:200px;
+height:220px;
 
 resize:none;
 
@@ -164,11 +182,24 @@ line-height:1.6;
 
 }
 
+input:focus,
+textarea:focus{
+
+outline:none;
+
+border-color:#1d9bf0;
+
+}
+
+/* =========================
+BUTTON
+========================= */
+
 #downloadBtn{
 
 width:100%;
 
-margin-top:10px;
+margin-top:12px;
 
 padding:18px;
 
@@ -176,7 +207,7 @@ border:none;
 
 border-radius:16px;
 
-font-size:17px;
+font-size:16px;
 
 font-weight:700;
 
@@ -188,15 +219,17 @@ background:
 linear-gradient(
 135deg,
 #1d9bf0,
-#4b8fff
+#4f8cff
 );
 
 box-shadow:
-0 15px 35px rgba(29,155,240,.25);
+0 15px 40px rgba(29,155,240,.25);
 
 }
 
-/* PREVIEW */
+/* =========================
+PREVIEW
+========================= */
 
 .preview{
 
@@ -207,13 +240,17 @@ align-items:center;
 
 }
 
-/* GLOW */
+/* =========================
+CARD
+========================= */
 
 #tweetCard{
 
 position:relative;
 
-width:720px;
+width:700px;
+
+min-height:700px;
 
 background:#000;
 
@@ -221,10 +258,18 @@ border-radius:34px;
 
 padding:42px;
 
+display:flex;
+
+flex-direction:column;
+
 box-shadow:
-0 40px 100px rgba(0,0,0,.65);
+0 40px 120px rgba(0,0,0,.65);
 
 }
+
+/* =========================
+BLUE GLOW
+========================= */
 
 #tweetCard::before{
 
@@ -232,24 +277,32 @@ content:"";
 
 position:absolute;
 
-inset:-40px;
+width:900px;
+height:900px;
 
-z-index:-1;
+left:50%;
+top:50%;
+
+transform:
+translate(-50%,-50%);
 
 background:
-
 radial-gradient(
 circle,
-rgba(29,155,240,.18) 0%,
-rgba(29,155,240,.06) 40%,
+rgba(29,155,240,.22) 0%,
+rgba(29,155,240,.08) 40%,
 transparent 70%
 );
 
-filter:blur(50px);
+filter:blur(80px);
+
+z-index:-1;
 
 }
 
-/* HEADER */
+/* =========================
+HEADER
+========================= */
 
 .tweetHeader{
 
@@ -261,8 +314,8 @@ align-items:center;
 
 #avatarPreview{
 
-width:70px;
-height:70px;
+width:72px;
+height:72px;
 
 border-radius:50%;
 
@@ -275,6 +328,7 @@ margin-right:14px;
 .userInfo{
 
 display:flex;
+
 flex-direction:column;
 
 }
@@ -287,7 +341,7 @@ align-items:center;
 
 gap:8px;
 
-font-size:24px;
+font-size:22px;
 
 font-weight:700;
 
@@ -297,7 +351,7 @@ font-weight:700;
 
 font-size:15px;
 
-color:#7d8594;
+color:#7f8797;
 
 margin-top:2px;
 
@@ -310,6 +364,10 @@ width:34px;
 margin-left:auto;
 
 }
+
+/* =========================
+VERIFIED
+========================= */
 
 .verified{
 
@@ -331,36 +389,20 @@ font-weight:700;
 
 }
 
-/* TEXT */
+/* =========================
+POST TEXT
+========================= */
 
 #tweetText{
 
-margin-top:42px;
-
-white-space:pre-wrap;
+margin-top:40px;
 
 font-size:34px;
 
 line-height:1.45;
 
+white-space:pre-wrap;
+
 letter-spacing:-0.03em;
-
-}
-
-/* CHROMEBOOK */
-
-@media(max-width:1400px){
-
-#tweetCard{
-
-width:640px;
-
-}
-
-#tweetText{
-
-font-size:30px;
-
-}
 
 }
