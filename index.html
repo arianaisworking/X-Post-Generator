@@ -1,27 +1,20 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+<title>X Post Generator</title>
 
-    <title>X Post Generator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link rel="preconnect"
-          href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <link rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-          rel="stylesheet">
-
-    <link rel="stylesheet"
-          href="style.css">
+<link rel="stylesheet" href="style.css">
 
 </head>
 
@@ -29,15 +22,16 @@
 
 <div class="app">
 
-    <!-- ========================================= -->
-    <!-- LEFT PANEL                               -->
-    <!-- ========================================= -->
+```
+<!-- SIDEBAR -->
 
-    <aside class="sidebar">
+<aside class="sidebar">
+
+    <div class="sidebar-card">
 
         <h1>X Post Generator</h1>
 
-        <p>Create beautiful fake X posts.</p>
+        <p>Create viral-style X graphics.</p>
 
         <label>
 
@@ -77,16 +71,14 @@
             Post
 
             <textarea
-                id="postInput">
-
-Most businesses don't lose customers because they're expensive.
+                id="postInput">Most businesses don't lose customers because they're expensive.
+```
 
 They lose customers because they're inconsistent.
 
-Consistency is a competitive advantage.
+Consistency is a competitive advantage.</textarea>
 
-            </textarea>
-
+```
         </label>
 
         <button id="downloadBtn">
@@ -95,55 +87,64 @@ Consistency is a competitive advantage.
 
         </button>
 
-    </aside>
+    </div>
 
+</aside>
 
+<!-- PREVIEW -->
 
-    <!-- ========================================= -->
-    <!-- PREVIEW                                  -->
-    <!-- ========================================= -->
+<main class="preview">
 
-    <main class="preview">
+    <div id="tweetCard">
 
-        <div id="tweetCard">
+        <div class="tweetHeader">
 
-            <div class="tweetHeader">
+            <img
+                id="avatarPreview"
+                src="assets/default-avatar.png">
 
-                <img
-                    id="avatarPreview"
-                    src="assets/default-avatar.png">
-<div id="namePreview">
+            <div class="userInfo">
 
-<span id="displayName">
-Ariana Hernandez
-</span>
+                <div id="namePreview">
 
-<span class="verified">
-✓
-</span>
+                    <span id="displayName">
+                        Ariana Hernandez
+                    </span>
 
-</div>
+                    <span class="verified">
+                        ✓
+                    </span>
 
-                <img
-                    class="xLogo"
-                    src="assets/x-logo.svg">
+                </div>
 
-            </div>
-
-            <div
-                id="tweetText">
-
-                Most businesses don't lose customers because they're expensive.
-
-                They lose customers because they're inconsistent.
-
-                Consistency is a competitive advantage.
+                <div id="usernamePreview">
+                    @ArianaHernandez
+                </div>
 
             </div>
+
+            <img
+                class="xLogo"
+                src="assets/x-logo.svg">
 
         </div>
 
-    </main>
+        <div id="tweetText">
+```
+
+Most businesses don't lose customers because they're expensive.
+
+They lose customers because they're inconsistent.
+
+Consistency is a competitive advantage.
+
+```
+        </div>
+
+    </div>
+
+</main>
+```
 
 </div>
 
