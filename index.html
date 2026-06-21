@@ -1,165 +1,98 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>X Post Generator</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
 
 <div class="app">
 
-```
-<aside class="sidebar">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
 
-    <div class="sidebar-card">
+        <div class="panel">
 
-        <h1>X Post Generator</h1>
+            <h1>X Post Generator</h1>
+            <p>Generate clean X-style posts for LinkedIn</p>
 
-        <p>Create viral-style X graphics.</p>
+            <div class="toggle">
+                <button class="tab active" data-mode="single">Single</button>
+                <button class="tab" data-mode="bulk">Bulk</button>
+            </div>
 
-        <div class="mode-toggle">
+            <!-- SINGLE MODE -->
+            <div id="singleMode">
 
-            <button class="mode-btn active">
-                Single
-            </button>
+                <input type="file" id="avatarInput">
 
-            <button class="mode-btn">
-                Bulk
-            </button>
+                <input id="nameInput" placeholder="Name" value="Ariana Hernandez">
 
-        </div>
+                <input id="usernameInput" placeholder="Username" value="@ArianaHernandez">
 
-        <label>
-
-            Profile Photo
-
-            <input
-                type="file"
-                id="avatarInput"
-                accept="image/*">
-
-        </label>
-
-        <label>
-
-            Name
-
-            <input
-                id="nameInput"
-                type="text"
-                value="Ariana Hernandez">
-
-        </label>
-
-        <label>
-
-            Username
-
-            <input
-                id="usernameInput"
-                type="text"
-                value="@ArianaHernandez">
-
-        </label>
-
-        <label>
-
-            Post
-
-            <textarea
-                id="postInput">Most businesses don't lose customers because they're expensive.
-```
+                <textarea id="postInput">Most businesses don't lose customers because they're expensive.
 
 They lose customers because they're inconsistent.
 
 Consistency is a competitive advantage.</textarea>
 
-```
-        </label>
-
-        <button id="downloadBtn">
-
-            Download PNG
-
-        </button>
-
-    </div>
-
-</aside>
-
-<main class="preview">
-
-    <div id="tweetCard">
-
-        <div class="tweetHeader">
-
-            <img
-                id="avatarPreview"
-                src="assets/default-avatar.png">
-
-            <div class="userInfo">
-
-                <div id="namePreview">
-
-                    <span id="displayName">
-                        Ariana Hernandez
-                    </span>
-
-                    <span class="verified">
-                        ✓
-                    </span>
-
-                </div>
-
-                <div id="usernamePreview">
-                    @ArianaHernandez
-                </div>
+                <button id="downloadBtn">Download PNG</button>
 
             </div>
 
-            <img
-                class="xLogo"
-                src="assets/x-logo.svg">
+            <!-- BULK MODE -->
+            <div id="bulkMode" class="hidden">
+
+                <textarea id="bulkInput" placeholder="Paste posts separated by ---"></textarea>
+
+                <button id="bulkGenerateBtn">Generate All</button>
+
+            </div>
 
         </div>
 
-        <div id="tweetText">
-```
+    </aside>
 
-Most businesses don't lose customers because they're expensive.
+    <!-- PREVIEW -->
+    <main class="preview">
 
-They lose customers because they're inconsistent.
+        <div id="card">
 
-Consistency is a competitive advantage.
+            <div class="header">
 
-```
+                <img id="avatarPreview" src="assets/default-avatar.png">
+
+                <div class="user">
+
+                    <div class="nameRow">
+                        <span id="namePreview">Ariana Hernandez</span>
+                        <img class="verified" src="assets/verified.svg">
+                    </div>
+
+                    <div id="usernamePreview">@ArianaHernandez</div>
+
+                </div>
+
+                <img class="xLogo" src="assets/x-logo.svg">
+
+            </div>
+
+            <div id="postPreview"></div>
+
         </div>
 
-    </div>
-
-</main>
-```
+    </main>
 
 </div>
 
 <script src="libs/html2canvas.min.js"></script>
-
 <script src="script.js"></script>
 
 </body>
-
 </html>
