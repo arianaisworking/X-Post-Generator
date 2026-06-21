@@ -5,404 +5,163 @@ box-sizing:border-box;
 }
 
 body{
-
-font-family:'Inter',sans-serif;
-
-background:
-radial-gradient(
-circle at center,
-#1b2942 0%,
-#101827 40%,
-#080d15 100%
-);
-
+font-family:Inter,sans-serif;
+background:radial-gradient(circle at top,#17233a,#0b1220);
 height:100vh;
-
 overflow:hidden;
-
 color:white;
-
 }
 
 .app{
-
+display:flex;
 height:100vh;
-
-display:flex;
-
-justify-content:center;
+gap:40px;
+padding:30px;
 align-items:center;
-
-gap:48px;
-
-padding:32px;
-
+justify-content:center;
 }
 
-/* =========================
-SIDEBAR
-========================= */
-
+/* SIDEBAR */
 .sidebar{
-
-width:360px;
-
-flex-shrink:0;
-
+width:380px;
 }
 
-.sidebar-card{
-
-background:
-rgba(18,24,37,.88);
-
-backdrop-filter:blur(18px);
-
-border-radius:28px;
-
-padding:28px;
-
-border:1px solid rgba(255,255,255,.06);
-
-box-shadow:
-0 30px 80px rgba(0,0,0,.45);
-
-}
-
-.sidebar h1{
-
-font-size:28px;
-
-font-weight:700;
-
-margin-bottom:6px;
-
-}
-
-.sidebar p{
-
-font-size:14px;
-
-color:#8d99ae;
-
-margin-bottom:22px;
-
-}
-
-/* =========================
-MODE TOGGLE
-========================= */
-
-.mode-toggle{
-
-display:flex;
-
-gap:10px;
-
-margin-bottom:22px;
-
-}
-
-.mode-btn{
-
-flex:1;
-
-padding:14px;
-
-border:none;
-
-border-radius:14px;
-
-background:#111827;
-
-color:white;
-
-font-size:14px;
-
-font-weight:600;
-
-cursor:pointer;
-
-transition:.2s;
-
-}
-
-.mode-btn.active{
-
-background:#1d9bf0;
-
-}
-
-/* =========================
-FORMS
-========================= */
-
-label{
-
-display:block;
-
-font-size:13px;
-
-margin-bottom:16px;
-
-color:#c6d0e1;
-
-}
-
-input,
-textarea{
-
-width:100%;
-
-margin-top:8px;
-
-padding:14px;
-
-background:#111827;
-
+.panel{
+background:rgba(18,24,40,.9);
+backdrop-filter:blur(20px);
+padding:24px;
+border-radius:24px;
 border:1px solid rgba(255,255,255,.08);
+}
 
-border-radius:14px;
+h1{
+font-size:22px;
+margin-bottom:6px;
+}
 
+p{
+font-size:13px;
+opacity:.7;
+margin-bottom:18px;
+}
+
+/* TOGGLE */
+.toggle{
+display:flex;
+gap:8px;
+margin-bottom:16px;
+}
+
+.tab{
+flex:1;
+padding:10px;
+border-radius:10px;
+border:none;
+background:#111827;
 color:white;
+cursor:pointer;
+}
 
-font-family:inherit;
+.tab.active{
+background:#1d9bf0;
+}
 
-font-size:15px;
-
+/* INPUTS */
+input,textarea{
+width:100%;
+margin-bottom:12px;
+padding:10px;
+border-radius:10px;
+border:1px solid rgba(255,255,255,.1);
+background:#0f172a;
+color:white;
 }
 
 textarea{
-
-height:220px;
-
+height:140px;
 resize:none;
-
-line-height:1.6;
-
 }
 
-input:focus,
-textarea:focus{
-
-outline:none;
-
-border-color:#1d9bf0;
-
-}
-
-/* =========================
-BUTTON
-========================= */
-
-#downloadBtn{
-
+/* BUTTONS */
+button{
 width:100%;
-
-margin-top:12px;
-
-padding:18px;
-
+padding:12px;
 border:none;
-
-border-radius:16px;
-
-font-size:16px;
-
-font-weight:700;
-
-cursor:pointer;
-
+border-radius:10px;
+background:#1d9bf0;
 color:white;
-
-background:
-linear-gradient(
-135deg,
-#1d9bf0,
-#4f8cff
-);
-
-box-shadow:
-0 15px 40px rgba(29,155,240,.25);
-
+cursor:pointer;
+font-weight:600;
 }
 
-/* =========================
-PREVIEW
-========================= */
-
+/* PREVIEW */
 .preview{
-
 display:flex;
-
+align-items:center;
 justify-content:center;
-align-items:center;
-
 }
 
-/* =========================
-CARD
-========================= */
-
-#tweetCard{
-
-position:relative;
-
-width:700px;
-
-min-height:700px;
-
+/* CARD (FIXED CANVAS) */
+#card{
+width:800px;
+min-height:800px;
 background:#000;
-
-border-radius:34px;
-
-padding:42px;
-
-display:flex;
-
-flex-direction:column;
-
-box-shadow:
-0 40px 120px rgba(0,0,0,.65);
-
+border-radius:28px;
+padding:40px;
+box-shadow:0 40px 120px rgba(0,0,0,.6);
+position:relative;
 }
 
-/* =========================
-BLUE GLOW
-========================= */
-
-#tweetCard::before{
-
-content:"";
-
-position:absolute;
-
-width:900px;
-height:900px;
-
-left:50%;
-top:50%;
-
-transform:
-translate(-50%,-50%);
-
-background:
-radial-gradient(
-circle,
-rgba(29,155,240,.22) 0%,
-rgba(29,155,240,.08) 40%,
-transparent 70%
-);
-
-filter:blur(80px);
-
-z-index:-1;
-
-}
-
-/* =========================
-HEADER
-========================= */
-
-.tweetHeader{
-
+/* HEADER */
+.header{
 display:flex;
-
 align-items:center;
-
+gap:12px;
 }
 
 #avatarPreview{
-
-width:72px;
-height:72px;
-
+width:56px;
+height:56px;
 border-radius:50%;
-
-object-fit:cover;
-
-margin-right:14px;
-
 }
 
-.userInfo{
-
+.user{
 display:flex;
-
 flex-direction:column;
-
 }
 
-#namePreview{
-
+.nameRow{
 display:flex;
-
 align-items:center;
-
-gap:8px;
-
-font-size:22px;
-
+gap:6px;
 font-weight:700;
-
 }
 
 #usernamePreview{
-
-font-size:15px;
-
-color:#7f8797;
-
-margin-top:2px;
-
+font-size:13px;
+opacity:.6;
 }
 
 .xLogo{
-
-width:34px;
-
 margin-left:auto;
-
+width:24px;
 }
 
-/* =========================
-VERIFIED
-========================= */
-
+/* VERIFIED (NEW X STYLE) */
 .verified{
-
-width:20px;
-height:20px;
-
-border-radius:50%;
-
-background:#1d9bf0;
-
-display:flex;
-
-justify-content:center;
-align-items:center;
-
-font-size:11px;
-
-font-weight:700;
-
+width:16px;
+height:16px;
 }
 
-/* =========================
-POST TEXT
-========================= */
-
-#tweetText{
-
-margin-top:40px;
-
-font-size:34px;
-
-line-height:1.45;
-
+/* POST */
+#postPreview{
+margin-top:30px;
+font-size:28px;
+line-height:1.4;
 white-space:pre-wrap;
+}
 
-letter-spacing:-0.03em;
-
+/* HIDE */
+.hidden{
+display:none;
 }
