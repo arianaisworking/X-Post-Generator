@@ -24,6 +24,7 @@
       <div class="toggle">
         <button class="tab active" data-mode="single">Single</button>
         <button class="tab" data-mode="bulk">Bulk</button>
+        <button class="tab" data-mode="beforeafter">Before/After</button>
       </div>
 
       <!-- SINGLE MODE -->
@@ -107,6 +108,52 @@ Post three here"></textarea>
           <button id="bulkPreviewBtn" class="btn-secondary">Preview All</button>
           <button id="bulkDownloadBtn" class="btn-download">Download All PNGs</button>
         </div>
+
+      </div>
+
+      <!-- BEFORE/AFTER MODE -->
+      <div id="beforeAfterMode" class="hidden">
+
+        <div class="field-label">Before photo</div>
+        <label class="photo-upload-box" id="beforeUploadLabel">
+          <input type="file" id="beforeInput" accept="image/*">
+          <div class="photo-upload-inner" id="beforePreviewWrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <span>Upload before photo</span>
+          </div>
+        </label>
+
+        <div class="field-label">After photo</div>
+        <label class="photo-upload-box" id="afterUploadLabel">
+          <input type="file" id="afterInput" accept="image/*">
+          <div class="photo-upload-inner" id="afterPreviewWrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <span>Upload after photo</span>
+          </div>
+        </label>
+
+        <div class="field-label">DRC Branding</div>
+        <label class="photo-upload-box photo-upload-box--small has-image" id="logoUploadLabel">
+          <input type="file" id="logoInput" accept="image/*">
+          <div class="photo-upload-inner" id="logoPreviewWrap">
+            <img src="assets/drc-logo.png" alt="DRC Logo">
+          </div>
+        </label>
+        <input id="baCompanyName" placeholder="Company name" value="DRC Maintenance" style="margin-top:8px;">
+        <input id="baTagline" placeholder="Tagline (optional)" value="Built On Trades. Driven By Innovation.">
+
+        <div class="field-label">Caption on card</div>
+        <input id="baCaption" placeholder="e.g. Full property cleanup — Miami, FL">
+
+        <div class="field-label">GIF Speed</div>
+        <div class="font-row" style="margin-top:0;">
+          <span style="font-size:11px;color:var(--text-muted);">Slow</span>
+          <input type="range" id="gifSpeedSlider" min="1" max="5" value="3" class="slider">
+          <span style="font-size:11px;color:var(--text-muted);">Fast</span>
+        </div>
+
+        <div id="baStatus" class="bulk-status hidden"></div>
+        <button id="baGifBtn" class="btn-download" style="margin-top:12px;">Export GIF</button>
 
       </div>
 
@@ -198,6 +245,14 @@ Post three here"></textarea>
     <!-- BULK PREVIEW GRID -->
     <div id="bulkPreviewGrid" class="bulk-grid hidden"></div>
 
+    <!-- BEFORE/AFTER PREVIEW -->
+    <div id="baPreview" class="ba-preview hidden">
+      <div class="ba-card" id="baCard">
+        <!-- rendered by JS -->
+      </div>
+      <div class="ba-preview-label">Live preview — export to get the animated GIF</div>
+    </div>
+
   </main>
 
 </div>
@@ -211,6 +266,7 @@ Post three here"></textarea>
 </div>
 
 <script src="libs/html2canvas.min.js"></script>
+<script src="libs/gif.js"></script>
 <script src="script.js"></script>
 </body>
 </html>

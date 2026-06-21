@@ -139,23 +139,32 @@ function applyStyle(style) {
 }
 applyStyle('dark');
 
-/* ─── MODE TOGGLE ─── */
-tabs.forEach(t => {
-  t.onclick = () => {
-    tabs.forEach(x => x.classList.remove('active'));
-    t.classList.add('active');
-    const mode = t.dataset.mode;
-    if (mode === 'single') {
-      singleMode.classList.remove('hidden');
-      bulkMode.classList.add('hidden');
-      singlePreview.classList.remove('hidden');
-      bulkPreviewGrid.classList.add('hidden');
-    } else {
-      bulkMode.classList.remove('hidden');
-      singleMode.classList.add('hidden');
-    }
-  };
-});
+/* ─── MODE TOGGLE (single, bulk, beforeafter) ─── */
+function switchMode(mode) {
+  tabs.forEach(x => x.classList.remove('active'));
+  document.querySelector(`.tab[data-mode="${mode}"]`)?.classList.add('active');
+
+  singleMode.classList.add('hidden');
+  bulkMode.classList.add('hidden');
+  singlePreview.classList.add('hidden');
+  bulkPreviewGrid.classList.add('hidden');
+
+  const baMode = document.getElementById('beforeAfterMode');
+  const baPrev = document.getElementById('baPreview');
+  if (baMode) baMode.classList.add('hidden');
+  if (baPrev) baPrev.classList.add('hidden');
+
+  if (mode === 'single') {
+    singleMode.classList.remove('hidden');
+    singlePreview.classList.remove('hidden');
+  } else if (mode === 'bulk') {
+    bulkMode.classList.remove('hidden');
+  } else if (mode === 'beforeafter') {
+    if (baMode) baMode.classList.remove('hidden');
+    if (baPrev && (beforeDataUrl || afterDataUrl)) baPrev.classList.remove('hidden');
+  }
+}
+tabs.forEach(t => { t.onclick = () => switchMode(t.dataset.mode); });
 
 /* ─── AI GENERATION (Single) ─── */
 generateBtn.onclick = async () => {
@@ -311,3 +320,361 @@ downloadBtn.onclick = async () => {
   link.click();
   hideOverlay();
 };
+
+/* ═══════════════════════════════════════════
+   BEFORE / AFTER MODULE
+═══════════════════════════════════════════ */
+
+const beforeAfterMode = document.getElementById('beforeAfterMode');
+const baPreview       = document.getElementById('baPreview');
+const baCard          = document.getElementById('baCard');
+const baGifBtn        = document.getElementById('baGifBtn');
+const baStatus        = document.getElementById('baStatus');
+const baCompanyName   = document.getElementById('baCompanyName');
+const baTagline       = document.getElementById('baTagline');
+const baCaption       = document.getElementById('baCaption');
+const gifSpeedSlider  = document.getElementById('gifSpeedSlider');
+
+let beforeDataUrl = null;
+let afterDataUrl  = null;
+let logoDataUrl   = null;
+
+/* Pre-load the default DRC logo */
+(function() {
+  const img = new Image();
+  img.onload = () => {
+    const canvas = document.createElement('canvas');
+    canvas.width = img.width; canvas.height = img.height;
+    canvas.getContext('2d').drawImage(img, 0, 0);
+    logoDataUrl = canvas.toDataURL('image/png');
+  };
+  img.src = 'assets/drc-logo.png';
+})();
+
+/* ─── PHOTO UPLOAD HELPERS ─── */
+function setupPhotoUpload(inputId, wrapId, boxId, callback) {
+  const input = document.getElementById(inputId);
+  const wrap  = document.getElementById(wrapId);
+  const box   = document.getElementById(boxId);
+  input.onchange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const dataUrl = ev.target.result;
+      callback(dataUrl);
+      // Show thumbnail in upload box
+      wrap.innerHTML = `<img src="${dataUrl}" alt="preview">`;
+      if (box) box.classList.add('has-image');
+    };
+    reader.readAsDataURL(file);
+  };
+}
+
+setupPhotoUpload('beforeInput', 'beforePreviewWrap', 'beforeUploadLabel', (url) => {
+  beforeDataUrl = url;
+  renderBaPreview('before');
+  baPreview.classList.remove('hidden');
+});
+
+setupPhotoUpload('afterInput', 'afterPreviewWrap', 'afterUploadLabel', (url) => {
+  afterDataUrl = url;
+  renderBaPreview('after');
+  baPreview.classList.remove('hidden');
+});
+
+setupPhotoUpload('logoInput', 'logoPreviewWrap', 'logoUploadLabel', (url) => {
+  logoDataUrl = url;
+  renderBaPreview('before');
+});
+
+/* Live update branding */
+baCompanyName.oninput = () => renderBaPreview('before');
+baTagline.oninput     = () => renderBaPreview('before');
+baCaption.oninput     = () => renderBaPreview('before');
+
+/* ─── RENDER BA PREVIEW ─── */
+function buildBaCardHTML(imageUrl, label) {
+  const isAfter = label === 'After';
+  const badgeHtml = logoDataUrl
+    ? `<div class="ba-badge-corner"><img src="${logoDataUrl}" alt="DRC"></div>`
+    : `<div class="ba-badge-corner" style="background:#0D1B3E;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:#4CAF50;">DRC</div>`;
+
+  const captionHtml = baCaption.value.trim()
+    ? `<div class="ba-caption-bar"><div class="ba-caption-text">${baCaption.value}</div></div>`
+    : '';
+
+  const taglineHtml = baTagline.value.trim()
+    ? `<div class="ba-tagline">${baTagline.value}</div>`
+    : '';
+
+  const logoSmallHtml = logoDataUrl
+    ? `<img class="ba-logo" src="${logoDataUrl}" alt="DRC">`
+    : `<div class="ba-logo-placeholder">DRC</div>`;
+
+  return `
+    ${imageUrl ? `<img class="ba-image" src="${imageUrl}">` : ''}
+    <div class="ba-label-pill ${isAfter ? 'after' : ''}">${label}</div>
+    ${captionHtml}
+    ${badgeHtml}
+    <div class="ba-brand-corner">
+      ${logoSmallHtml}
+      <div class="ba-brand-text">
+        <div class="ba-company">${baCompanyName.value || 'DRC Maintenance'}</div>
+        ${taglineHtml}
+      </div>
+    </div>`;
+}
+
+function renderBaPreview(which) {
+  const url = which === 'before' ? beforeDataUrl : afterDataUrl;
+  const label = which === 'before' ? 'Before' : 'After';
+  baCard.innerHTML = buildBaCardHTML(url, label);
+}
+
+/* ─── GIF EXPORT ─── */
+baGifBtn.onclick = async () => {
+  if (!beforeDataUrl || !afterDataUrl) {
+    setBaStatus('Upload both a Before and After photo first.', 'error');
+    return;
+  }
+  setBaStatus('', '');
+  showOverlay('Building your GIF...');
+
+  try {
+    const SIZE = 600;
+    const FADE_FRAMES = 30; // frames for crossfade
+    const speedVal = parseInt(gifSpeedSlider.value); // 1-5
+    // Hold duration: slower speed = longer hold. Speed 1=4s, 3=2.5s, 5=1.5s
+    const holdMs = Math.round(4000 - (speedVal - 1) * 625);
+    const holdFrames = Math.round(holdMs / 80);
+    const frameDelay = 8; // centiseconds (gif.js unit) = 80ms per frame
+
+    // Pre-render both frames as canvases with branding
+    async function renderFrame(imageUrl, label) {
+      const offscreen = document.createElement('canvas');
+      offscreen.width  = SIZE;
+      offscreen.height = SIZE;
+      const ctx = offscreen.getContext('2d');
+
+      // Draw photo
+      await new Promise((res, rej) => {
+        const img = new Image();
+        img.onload = () => {
+          // cover-fit into square
+          const scale = Math.max(SIZE / img.width, SIZE / img.height);
+          const w = img.width * scale;
+          const h = img.height * scale;
+          ctx.drawImage(img, (SIZE - w) / 2, (SIZE - h) / 2, w, h);
+          res();
+        };
+        img.onerror = rej;
+        img.src = imageUrl;
+      });
+
+      // Gradient overlay (bottom) — deep navy fade matching DRC palette
+      const grad = ctx.createLinearGradient(0, SIZE * 0.42, 0, SIZE);
+      grad.addColorStop(0, 'rgba(10,18,40,0)');
+      grad.addColorStop(0.6, 'rgba(10,18,40,0.78)');
+      grad.addColorStop(1, 'rgba(10,18,40,0.96)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, SIZE, SIZE);
+
+      // Before/After pill — navy bg for Before, DRC green for After
+      const isAfter = label === 'After';
+      const pillW = isAfter ? 84 : 96;
+      ctx.fillStyle = isAfter ? '#2E7D32' : '#0D1B3E';
+      // Pill with green border
+      ctx.save();
+      roundRect(ctx, 18, 18, pillW, 34, 17);
+      ctx.restore();
+      // Green border ring
+      ctx.strokeStyle = '#4CAF50';
+      ctx.lineWidth = 1.5;
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(18 + 17, 18);
+      ctx.lineTo(18 + pillW - 17, 18);
+      ctx.quadraticCurveTo(18 + pillW, 18, 18 + pillW, 18 + 17);
+      ctx.lineTo(18 + pillW, 18 + 34 - 17);
+      ctx.quadraticCurveTo(18 + pillW, 18 + 34, 18 + pillW - 17, 18 + 34);
+      ctx.lineTo(18 + 17, 18 + 34);
+      ctx.quadraticCurveTo(18, 18 + 34, 18, 18 + 34 - 17);
+      ctx.lineTo(18, 18 + 17);
+      ctx.quadraticCurveTo(18, 18, 18 + 17, 18);
+      ctx.closePath();
+      ctx.stroke();
+      ctx.restore();
+      ctx.fillStyle = '#F5F0E8';
+      ctx.font = 'bold 12px Inter, sans-serif';
+      ctx.textBaseline = 'middle';
+      ctx.textAlign = 'center';
+      ctx.fillText(label.toUpperCase(), 18 + pillW / 2, 35);
+      ctx.textAlign = 'left';
+
+      // DRC Badge — bottom right corner, prominent
+      const badgeSize = 88;
+      const badgeX = SIZE - badgeSize - 16;
+      const badgeY = SIZE - badgeSize - 16;
+
+      if (logoDataUrl) {
+        await new Promise((res, rej) => {
+          const logo = new Image();
+          logo.onload = () => {
+            // Circular clip for the badge
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(badgeX + badgeSize/2, badgeY + badgeSize/2, badgeSize/2, 0, Math.PI*2);
+            ctx.clip();
+            ctx.drawImage(logo, badgeX, badgeY, badgeSize, badgeSize);
+            ctx.restore();
+            // Thin navy ring around badge
+            ctx.strokeStyle = '#0D1B3E';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.arc(badgeX + badgeSize/2, badgeY + badgeSize/2, badgeSize/2 + 1, 0, Math.PI*2);
+            ctx.stroke();
+            res();
+          };
+          logo.onerror = rej;
+          logo.src = logoDataUrl;
+        });
+      } else {
+        // Fallback text badge
+        ctx.fillStyle = '#0D1B3E';
+        ctx.beginPath();
+        ctx.arc(badgeX + badgeSize/2, badgeY + badgeSize/2, badgeSize/2, 0, Math.PI*2);
+        ctx.fill();
+        ctx.strokeStyle = '#4CAF50';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.fillStyle = '#4CAF50';
+        ctx.font = 'bold 22px Inter, sans-serif';
+        ctx.textBaseline = 'middle';
+        ctx.textAlign = 'center';
+        ctx.fillText('DRC', badgeX + badgeSize/2, badgeY + badgeSize/2);
+        ctx.textAlign = 'left';
+      }
+
+      // Company name + tagline bottom left
+      const textX = 20;
+      ctx.fillStyle = '#F5F0E8';
+      ctx.font = 'bold 15px Inter, sans-serif';
+      ctx.textBaseline = 'alphabetic';
+      ctx.fillText(baCompanyName.value || 'DRC Maintenance', textX, SIZE - 28);
+
+      if (baTagline.value.trim()) {
+        ctx.fillStyle = 'rgba(245,240,232,0.6)';
+        ctx.font = '500 10px Inter, sans-serif';
+        ctx.fillText(baTagline.value, textX, SIZE - 14);
+      }
+
+      // Caption
+      if (baCaption.value.trim()) {
+        ctx.fillStyle = 'rgba(245,240,232,0.9)';
+        ctx.font = '600 13px Inter, sans-serif';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(baCaption.value, textX, SIZE - 82);
+      }
+
+      return offscreen;
+    }
+
+    const beforeCanvas = await renderFrame(beforeDataUrl, 'Before');
+    const afterCanvas  = await renderFrame(afterDataUrl, 'After');
+
+    document.querySelector('.ai-overlay-text').textContent = 'Encoding GIF frames...';
+
+    // Build GIF using gif.js
+    const gif = new GIF({
+      workers: 2,
+      quality: 6,
+      width: SIZE,
+      height: SIZE,
+      workerScript: 'libs/gif.worker.js'
+    });
+
+    // Hold on BEFORE
+    for (let i = 0; i < holdFrames; i++) {
+      gif.addFrame(beforeCanvas, { delay: frameDelay * 10, copy: true });
+    }
+
+    // Fade from BEFORE → AFTER
+    const fadeCanvas = document.createElement('canvas');
+    fadeCanvas.width = fadeCanvas.height = SIZE;
+    const fctx = fadeCanvas.getContext('2d');
+
+    for (let f = 0; f <= FADE_FRAMES; f++) {
+      const alpha = f / FADE_FRAMES;
+      fctx.clearRect(0, 0, SIZE, SIZE);
+      fctx.globalAlpha = 1;
+      fctx.drawImage(beforeCanvas, 0, 0);
+      fctx.globalAlpha = alpha;
+      fctx.drawImage(afterCanvas, 0, 0);
+      fctx.globalAlpha = 1;
+      gif.addFrame(fctx, { delay: frameDelay * 10, copy: true });
+    }
+
+    // Hold on AFTER
+    for (let i = 0; i < holdFrames; i++) {
+      gif.addFrame(afterCanvas, { delay: frameDelay * 10, copy: true });
+    }
+
+    // Fade from AFTER → BEFORE
+    for (let f = 0; f <= FADE_FRAMES; f++) {
+      const alpha = f / FADE_FRAMES;
+      fctx.clearRect(0, 0, SIZE, SIZE);
+      fctx.globalAlpha = 1;
+      fctx.drawImage(afterCanvas, 0, 0);
+      fctx.globalAlpha = alpha;
+      fctx.drawImage(beforeCanvas, 0, 0);
+      fctx.globalAlpha = 1;
+      gif.addFrame(fctx, { delay: frameDelay * 10, copy: true });
+    }
+
+    gif.on('finished', (blob) => {
+      hideOverlay();
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.download = 'drc-before-after.gif';
+      link.href = url;
+      link.click();
+      setBaStatus('GIF exported successfully.', 'success');
+    });
+
+    gif.on('progress', (p) => {
+      document.querySelector('.ai-overlay-text').textContent =
+        `Encoding GIF... ${Math.round(p * 100)}%`;
+    });
+
+    gif.render();
+
+  } catch(err) {
+    hideOverlay();
+    setBaStatus('Export failed: ' + err.message, 'error');
+    console.error(err);
+  }
+};
+
+/* ─── CANVAS HELPERS ─── */
+function roundRect(ctx, x, y, w, h, r, clip = false) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+  if (!clip) ctx.fill();
+}
+
+function setBaStatus(msg, type) {
+  if (!msg) { baStatus.classList.add('hidden'); return; }
+  baStatus.textContent = msg;
+  baStatus.className = 'bulk-status ' + type;
+  baStatus.classList.remove('hidden');
+}
