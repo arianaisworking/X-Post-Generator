@@ -1,326 +1,389 @@
 /* =========================================
-   RESET
+RESET
 ========================================= */
 
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
 body{
-    font-family:'Inter',sans-serif;
-    min-height:100vh;
 
-    background:
-    radial-gradient(circle at top,#162033 0%,#0f141d 40%,#090d14 100%);
+font-family:'Inter',sans-serif;
 
-    color:white;
-    overflow:hidden;
+background:
+radial-gradient(circle at top,
+#1f2a44 0%,
+#131b2e 35%,
+#0b1019 100%);
+
+min-height:100vh;
+
+color:white;
+
+overflow:hidden;
+
 }
 
 /* =========================================
-   APP LAYOUT
+APP
 ========================================= */
 
 .app{
 
-    width:100vw;
-    height:100vh;
+height:100vh;
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:60px;
+display:flex;
 
-    padding:40px;
+justify-content:center;
+align-items:center;
+
+gap:60px;
+
+padding:40px;
 
 }
 
 /* =========================================
-   SIDEBAR CARD
+SIDEBAR
 ========================================= */
 
 .sidebar{
 
-    width:430px;
+width:440px;
 
-    background:
-    rgba(20,25,35,.75);
+display:flex;
 
-    backdrop-filter:blur(20px);
+justify-content:center;
 
-    border:1px solid rgba(255,255,255,.08);
+}
 
-    border-radius:32px;
+.sidebar-card{
 
-    padding:32px;
+width:100%;
 
-    box-shadow:
-    0 30px 80px rgba(0,0,0,.45);
+background:rgba(19,25,39,.85);
+
+backdrop-filter:blur(18px);
+
+border:1px solid rgba(255,255,255,.08);
+
+border-radius:32px;
+
+padding:32px;
+
+box-shadow:
+0 30px 80px rgba(0,0,0,.35);
 
 }
 
 .sidebar h1{
 
-    font-size:42px;
-    font-weight:700;
+font-size:32px;
 
-    margin-bottom:8px;
+font-weight:700;
+
+margin-bottom:8px;
 
 }
 
 .sidebar p{
 
-    color:#9ea8b7;
-    font-size:18px;
+color:#95a2bc;
 
-    margin-bottom:28px;
+margin-bottom:30px;
 
-}
-
-.sidebar label{
-
-    display:block;
-
-    font-size:15px;
-
-    margin-bottom:22px;
-
-    color:#d4d7dc;
+font-size:15px;
 
 }
 
 /* =========================================
-   INPUTS
+FUTURE TABS
 ========================================= */
 
-.sidebar input,
-.sidebar textarea{
+.mode-toggle{
 
-    width:100%;
+display:flex;
 
-    margin-top:8px;
+gap:10px;
 
-    border-radius:16px;
-
-    border:1px solid rgba(255,255,255,.08);
-
-    background:
-    rgba(0,0,0,.35);
-
-    color:white;
-
-    padding:16px;
-
-    font-size:17px;
-
-    font-family:inherit;
+margin-bottom:24px;
 
 }
 
-.sidebar input:focus,
-.sidebar textarea:focus{
+.mode-btn{
 
-    outline:none;
+flex:1;
 
-    border-color:#1d9bf0;
+padding:12px;
 
-}
+border-radius:14px;
 
-.sidebar textarea{
+background:#111827;
 
-    min-height:260px;
+border:1px solid rgba(255,255,255,.06);
 
-    resize:vertical;
+color:white;
 
-    line-height:1.6;
+cursor:pointer;
 
 }
 
 /* =========================================
-   BUTTON
+FORMS
+========================================= */
+
+label{
+
+display:block;
+
+font-size:13px;
+
+margin-bottom:18px;
+
+color:#b8c3d7;
+
+}
+
+input,
+textarea{
+
+width:100%;
+
+margin-top:8px;
+
+padding:14px;
+
+border-radius:16px;
+
+background:#111827;
+
+border:1px solid rgba(255,255,255,.08);
+
+color:white;
+
+font-size:15px;
+
+font-family:inherit;
+
+}
+
+textarea{
+
+height:220px;
+
+resize:none;
+
+line-height:1.6;
+
+}
+
+input:focus,
+textarea:focus{
+
+outline:none;
+
+border-color:#1d9bf0;
+
+}
+
+/* =========================================
+BUTTON
 ========================================= */
 
 #downloadBtn{
 
-    width:100%;
+width:100%;
 
-    border:none;
+margin-top:10px;
 
-    border-radius:18px;
+padding:18px;
 
-    padding:20px;
+border:none;
 
-    cursor:pointer;
+border-radius:18px;
 
-    color:white;
+font-size:17px;
 
-    font-size:20px;
+font-weight:700;
 
-    font-weight:700;
+color:white;
 
-    background:
-    linear-gradient(
-    135deg,
-    #1d9bf0,
-    #3f8cff
-    );
+cursor:pointer;
 
-    transition:.25s;
+background:
+linear-gradient(
+135deg,
+#1d9bf0,
+#4d8dff
+);
 
-}
-
-#downloadBtn:hover{
-
-    transform:translateY(-2px);
+box-shadow:
+0 15px 40px rgba(29,155,240,.3);
 
 }
 
 /* =========================================
-   PREVIEW AREA
+PREVIEW
 ========================================= */
 
 .preview{
 
-    display:flex;
+display:flex;
 
-    justify-content:center;
-    align-items:center;
+justify-content:center;
+align-items:center;
 
 }
 
 /* =========================================
-   CARD
+CARD
 ========================================= */
 
 #tweetCard{
 
-    width:1000px;
+width:760px;
 
-    background:#000;
+background:#000;
 
-    border-radius:36px;
+border-radius:36px;
 
-    padding:56px;
+padding:42px;
 
-    box-shadow:
-    0 35px 90px rgba(0,0,0,.55);
+box-shadow:
+0 30px 100px rgba(0,0,0,.55);
 
 }
 
 /* =========================================
-   HEADER
+HEADER
 ========================================= */
 
 .tweetHeader{
 
-    display:flex;
-    align-items:center;
+display:flex;
+
+align-items:center;
 
 }
 
 #avatarPreview{
 
-    width:96px;
-    height:96px;
+width:70px;
+height:70px;
 
-    border-radius:50%;
+border-radius:50%;
 
-    object-fit:cover;
+object-fit:cover;
 
-    margin-right:20px;
+margin-right:16px;
+
+}
+
+.userInfo{
+
+display:flex;
+flex-direction:column;
 
 }
 
 #namePreview{
 
-    font-size:52px;
+display:flex;
+align-items:center;
+gap:8px;
 
-    font-weight:700;
+font-size:24px;
 
-    display:flex;
-    align-items:center;
-    gap:12px;
+font-weight:700;
 
 }
 
 #usernamePreview{
 
-    font-size:30px;
+font-size:15px;
 
-    color:#8a8f98;
+color:#7d8594;
 
-    margin-top:4px;
+margin-top:2px;
 
 }
 
 .xLogo{
 
-    width:52px;
+width:34px;
 
-    margin-left:auto;
+margin-left:auto;
+
+opacity:.9;
 
 }
 
 /* =========================================
-   VERIFIED BADGE
+VERIFIED
 ========================================= */
 
 .verified{
 
-    width:32px;
-    height:32px;
+width:22px;
+height:22px;
 
-    background:#1d9bf0;
+border-radius:50%;
 
-    border-radius:50%;
+background:#1d9bf0;
 
-    display:inline-flex;
+display:flex;
 
-    justify-content:center;
-    align-items:center;
+justify-content:center;
+align-items:center;
 
-    font-size:18px;
+font-size:12px;
 
-    font-weight:bold;
+font-weight:700;
 
 }
 
 /* =========================================
-   TWEET
+POST TEXT
 ========================================= */
 
 #tweetText{
 
-    margin-top:70px;
+margin-top:40px;
 
-    white-space:pre-wrap;
+white-space:pre-wrap;
 
-    font-size:68px;
+font-size:42px;
 
-    line-height:1.45;
+line-height:1.35;
 
-    font-weight:400;
+font-weight:400;
+
+letter-spacing:-0.03em;
 
 }
 
 /* =========================================
-   RESPONSIVE
+RESPONSIVE
 ========================================= */
 
-@media(max-width:1600px){
+@media(max-width:1400px){
 
-    #tweetCard{
+.app{
 
-        width:900px;
+transform:scale(.9);
 
-    }
+}
 
-    #tweetText{
+}
 
-        font-size:58px;
+@media(max-width:1200px){
 
-    }
+.app{
+
+transform:scale(.8);
+
+}
 
 }
