@@ -21,10 +21,11 @@
       </div>
 
       <!-- MODE TABS -->
-      <div class="toggle">
+      <div class="toggle toggle-4">
         <button class="tab active" data-mode="single">Single</button>
         <button class="tab" data-mode="bulk">Bulk</button>
         <button class="tab" data-mode="beforeafter">Before/After</button>
+        <button class="tab" data-mode="carousel">Carousel</button>
       </div>
 
       <!-- SINGLE MODE -->
@@ -114,25 +115,27 @@ Post three here"></textarea>
       <!-- BEFORE/AFTER MODE -->
       <div id="beforeAfterMode" class="hidden">
 
-        <div class="field-label">Before photo</div>
-        <label class="photo-upload-box" id="beforeUploadLabel">
-          <input type="file" id="beforeInput" accept="image/*">
-          <div class="photo-upload-inner" id="beforePreviewWrap">
+        <div class="field-label">Before photos <span class="label-count" id="beforeCount">0 / 15</span></div>
+        <label class="photo-upload-box photo-multi-drop" id="beforeUploadLabel">
+          <input type="file" id="beforeInput" accept="image/*" multiple>
+          <div class="photo-upload-inner">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            <span>Upload before photo</span>
+            <span>Click or drag up to 15 photos</span>
           </div>
         </label>
+        <div class="photo-thumb-grid" id="beforeThumbs"></div>
 
-        <div class="field-label">After photo</div>
-        <label class="photo-upload-box" id="afterUploadLabel">
-          <input type="file" id="afterInput" accept="image/*">
-          <div class="photo-upload-inner" id="afterPreviewWrap">
+        <div class="field-label" style="margin-top:14px;">After photos <span class="label-count" id="afterCount">0 / 15</span></div>
+        <label class="photo-upload-box photo-multi-drop" id="afterUploadLabel">
+          <input type="file" id="afterInput" accept="image/*" multiple>
+          <div class="photo-upload-inner">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            <span>Upload after photo</span>
+            <span>Click or drag up to 15 photos</span>
           </div>
         </label>
+        <div class="photo-thumb-grid" id="afterThumbs"></div>
 
-        <div class="field-label">DRC Branding</div>
+        <div class="field-label" style="margin-top:14px;">DRC Branding</div>
         <label class="photo-upload-box photo-upload-box--small has-image" id="logoUploadLabel">
           <input type="file" id="logoInput" accept="image/*">
           <div class="photo-upload-inner" id="logoPreviewWrap">
@@ -247,13 +250,50 @@ Post three here"></textarea>
 
     <!-- BEFORE/AFTER PREVIEW -->
     <div id="baPreview" class="ba-preview hidden">
-      <div class="ba-card" id="baCard">
-        <!-- rendered by JS -->
-      </div>
+      <div class="ba-card" id="baCard"></div>
       <div class="ba-preview-label">Live preview — export to get the animated GIF</div>
     </div>
 
+    <!-- CAROUSEL PREVIEW -->
+    <div id="carouselPreview" class="carousel-preview hidden">
+      <div class="carousel-stage">
+        <button class="carousel-nav carousel-prev" id="carouselPrev">&#8592;</button>
+        <div class="carousel-frame" id="carouselFrame">
+          <!-- rendered by JS -->
+        </div>
+        <button class="carousel-nav carousel-next" id="carouselNext">&#8594;</button>
+      </div>
+      <div class="carousel-strip" id="carouselStrip"></div>
+    </div>
+
   </main>
+
+</div>
+
+<!-- CAROUSEL SIDEBAR (outside aside, injected via JS into aside) -->
+<div id="carouselSidebarTpl" style="display:none">
+
+  <div class="field-label" style="margin-top:0;">Slides <span class="label-count" id="slideCount">0 / 10</span></div>
+
+  <div id="slideList" class="slide-list"></div>
+
+  <button id="addSlideBtn" class="btn-secondary" style="margin-top:8px;">+ Add Slide</button>
+
+  <div class="field-label" style="margin-top:14px;">DRC Branding on slides</div>
+  <label class="stats-toggle">
+    <input type="checkbox" id="carouselBranding" checked>
+    <span class="toggle-track"></span>
+    Show DRC badge
+  </label>
+
+  <div class="field-label" style="margin-top:10px;">Slide size</div>
+  <div class="toggle" style="margin-bottom:8px;">
+    <button class="tab active" data-size="square">Square</button>
+    <button class="tab" data-size="portrait">Portrait</button>
+  </div>
+
+  <div id="carouselStatus" class="bulk-status hidden"></div>
+  <button id="carouselExportBtn" class="btn-download" style="margin-top:12px;">Export All Slides</button>
 
 </div>
 
